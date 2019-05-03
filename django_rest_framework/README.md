@@ -56,5 +56,8 @@ The server starts on http://localhost:8000 by default.
 #### Single Resource Endpoints
 
 * GET /people/{id}
+  * retrieves the person resource with the given id, returns 404 otherwise
 * PUT /people/{id}
+  * updates the person resource with the given id, returns 404 otherwise
 * DELETE /people/{id}
+  * deletes the person resource with the given id, returns 404 otherwise
