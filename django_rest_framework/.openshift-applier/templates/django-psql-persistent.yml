@@ -63,42 +63,42 @@ objects:
     annotations:
       description: Keeps track of changes in the application image
     name: ${NAME}
-- apiVersion: v1
-  kind: BuildConfig
-  metadata:
-    annotations:
-      description: Defines how to build the application
-      template.alpha.openshift.io/wait-for-ready: "true"
-    name: ${NAME}
-  spec:
-    output:
-      to:
-        kind: ImageStreamTag
-        name: ${NAME}:latest
-    postCommit:
-      script: ./manage.py test
-    source:
-      contextDir: ${CONTEXT_DIR}
-      git:
-        ref: ${SOURCE_REPOSITORY_REF}
-        uri: ${SOURCE_REPOSITORY_URL}
-      type: Git
-    strategy:
-      sourceStrategy:
-        env:
-        - name: PIP_INDEX_URL
-          value: ${PIP_INDEX_URL}
-        from:
-          kind: ImageStreamTag
-          name: python:${PYTHON_VERSION}
-          namespace: ${NAMESPACE}
-      type: Source
-    triggers:
-    - type: ImageChange
-    - type: ConfigChange
-    - github:
-        secret: ${GITHUB_WEBHOOK_SECRET}
-      type: GitHub
+# - apiVersion: v1
+#   kind: BuildConfig
+#   metadata:
+#     annotations:
+#       description: Defines how to build the application
+#       template.alpha.openshift.io/wait-for-ready: "true"
+#     name: ${NAME}
+#   spec:
+#     output:
+#       to:
+#         kind: ImageStreamTag
+#         name: ${NAME}:latest
+#     postCommit:
+#       script: ./manage.py test
+#     source:
+#       contextDir: ${CONTEXT_DIR}
+#       git:
+#         ref: ${SOURCE_REPOSITORY_REF}
+#         uri: ${SOURCE_REPOSITORY_URL}
+#       type: Git
+#     strategy:
+#       sourceStrategy:
+#         env:
+#         - name: PIP_INDEX_URL
+#           value: ${PIP_INDEX_URL}
+#         from:
+#           kind: ImageStreamTag
+#           name: python:${PYTHON_VERSION}
+#           namespace: ${NAMESPACE}
+#       type: Source
+#     triggers:
+#     - type: ImageChange
+#     - type: ConfigChange
+#     - github:
+#         secret: ${GITHUB_WEBHOOK_SECRET}
+#       type: GitHub
 - apiVersion: v1
   kind: DeploymentConfig
   metadata:
@@ -277,11 +277,11 @@ parameters:
   name: NAMESPACE
   required: true
   value: openshift
-- description: Version of Python image to be used (3.4, 3.5, 3.6 or latest).
-  displayName: Version of Python Image
-  name: PYTHON_VERSION
-  required: true
-  value: "3.6"
+# - description: Version of Python image to be used (3.4, 3.5, 3.6 or latest).
+#   displayName: Version of Python Image
+#   name: PYTHON_VERSION
+#   required: true
+#   value: "3.6"
 - description: Version of PostgreSQL image to be used (9.4, 9.5, 9.6 or latest).
   displayName: Version of PostgreSQL Image
   name: POSTGRESQL_VERSION
@@ -302,29 +302,29 @@ parameters:
   name: VOLUME_CAPACITY
   required: true
   value: 1Gi
-- description: The URL of the repository with your application source code.
-  displayName: Git Repository URL
-  name: SOURCE_REPOSITORY_URL
-  required: true
-  value: https://github.com/sclorg/django-ex.git
-- description: Set this to a branch name, tag or other ref of your repository if you
-    are not using the default branch.
-  displayName: Git Reference
-  name: SOURCE_REPOSITORY_REF
-- description: Set this to the relative path to your project if it is not in the root
-    of your repository.
-  displayName: Context Directory
-  name: CONTEXT_DIR
+# - description: The URL of the repository with your application source code.
+#   displayName: Git Repository URL
+#   name: SOURCE_REPOSITORY_URL
+#   required: true
+#   value: https://github.com/sclorg/django-ex.git
+# - description: Set this to a branch name, tag or other ref of your repository if you
+#     are not using the default branch.
+#   displayName: Git Reference
+#   name: SOURCE_REPOSITORY_REF
+# - description: Set this to the relative path to your project if it is not in the root
+#     of your repository.
+#   displayName: Context Directory
+#   name: CONTEXT_DIR
 - description: The exposed hostname that will route to the Django service, if left
     blank a value will be defaulted.
   displayName: Application Hostname
   name: APPLICATION_DOMAIN
-- description: Github trigger secret.  A difficult to guess string encoded as part
-    of the webhook URL.  Not encrypted.
-  displayName: GitHub Webhook Secret
-  from: '[a-zA-Z0-9]{40}'
-  generate: expression
-  name: GITHUB_WEBHOOK_SECRET
+# - description: Github trigger secret.  A difficult to guess string encoded as part
+#     of the webhook URL.  Not encrypted.
+#   displayName: GitHub Webhook Secret
+#   from: '[a-zA-Z0-9]{40}'
+#   generate: expression
+#   name: GITHUB_WEBHOOK_SECRET
 - displayName: Database Service Name
   name: DATABASE_SERVICE_NAME
   required: true
@@ -354,6 +354,6 @@ parameters:
   from: '[\w]{50}'
   generate: expression
   name: DJANGO_SECRET_KEY
-- description: The custom PyPi index URL
-  displayName: Custom PyPi Index URL
-  name: PIP_INDEX_URL
+# - description: The custom PyPi index URL
+#   displayName: Custom PyPi Index URL
+#   name: PIP_INDEX_URL

@@ -11,9 +11,9 @@
       PIPELINE_SOURCE_REPOSITORY_URL: https://github.com/dwasinge/python-examples.git
       PIPELINE_CONTEXT_DIR: "django_rest_framework"
       S2I_BASE_IMAGE: python:3.6
-    # dev:
-    #   NAME: "{{app_name}}"
-    #   PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
+    dev:
+      NAME: "{{app_name}}"
+      PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
     # test:
     #   NAME: "{{app_name}}"
     #   PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
