@@ -47,8 +47,7 @@ pipeline {
                 ls -al
                 pip install --user pipenv
                 echo 'context dir $PIPELINE_CONTEXT_DIR'
-                if [-d $PIPELINE_CONTEXT_DIR]
-                then
+                if [ -d "$PIPELINE_CONTEXT_DIR" ]; then
                   cd $PIPELINE_CONTEXT_DIR
                   pwd
                 fi
