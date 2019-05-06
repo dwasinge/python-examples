@@ -1,0 +1,22 @@
+---
+- name: Build and Deploy Django REST Application
+  hosts: seed-hosts
+  vars:
+    app_name: django_rest_framework
+    ci_cd_namespace: derek-ci-cd
+    dev_namespace: derek-dev
+    test_namespace: derek-test
+    build:
+      NAME: "{{app_name}}"
+      PIPELINE_SOURCE_REPOSITORY_URL: https://github.com/dwasinge/python-examples.git
+      PIPELINE_CONTEXT_DIR: "{{app_name}}"
+      S2I_BASE_IMAGE: python:3.6
+    # dev:
+    #   NAME: "{{app_name}}"
+    #   PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
+    # test:
+    #   NAME: "{{app_name}}"
+    #   PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
+  tasks:
+    - include_role:
+        name: openshift-applier/roles/openshift-applier
