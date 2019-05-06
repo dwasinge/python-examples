@@ -46,8 +46,10 @@ pipeline {
                 pwd
                 ls -al
                 pip install --user pipenv
-                if -d $PIPELINE_CONTEXT_DIR
+                if [-d $PIPELINE_CONTEXT_DIR]
+                then
                   cd $PIPELINE_CONTEXT_DIR
+                  pwd
                 fi
                 pipenv sync
                 pipenv install --dev
