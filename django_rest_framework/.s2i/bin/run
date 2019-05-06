@@ -80,6 +80,9 @@ if should_migrate; then
 fi
 
 echo "APP Module: $APP_MODULE"
+if is_gunicorn_installed; then
+  echo "gunicorn is installed"
+fi
 
 if is_gunicorn_installed; then
   setup_py=$(find "$HOME" -maxdepth 2 -type f -name 'setup.py' -print -quit)
@@ -89,6 +92,8 @@ if is_gunicorn_installed; then
   elif [[ -z "$APP_MODULE" && -f "$setup_py" ]]; then
     APP_MODULE="$(python "$setup_py" --name)"
   fi
+
+echo "App module after setting: $APP_MODULE"
 
   if [[ "$APP_MODULE" ]]; then
     export WEB_CONCURRENCY=${WEB_CONCURRENCY:-$(get_default_web_concurrency)}
