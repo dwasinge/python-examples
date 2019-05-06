@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Printing from custom assemble"
+
+printenv
+
+/usr/libexec/s2i/assemble
