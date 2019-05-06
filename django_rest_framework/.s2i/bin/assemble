@@ -4,4 +4,7 @@ echo "Printing from custom assemble"
 
 printenv
 
+ls -la /tmp/src/
+
+
 /usr/libexec/s2i/assemble
