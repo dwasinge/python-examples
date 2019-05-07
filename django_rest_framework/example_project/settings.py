@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'example_project.urls'
@@ -81,10 +82,33 @@ WSGI_APPLICATION = 'example_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-from . import database
+engines = {
+    'sqlite': 'django.db.backends.sqlite3',
+    'postgresql': 'django.db.backends.postgresql_psycopg2',
+    'mysql': 'django.db.backends.mysql',
+}
+
+
+def config():
+    service_name = os.getenv('DATABASE_SERVICE_NAME', '').upper().replace('-', '_')
+    if service_name:
+        engine = engines.get(os.getenv('DATABASE_ENGINE'), engines['sqlite'])
+    else:
+        engine = engines['sqlite']
+    name = os.getenv('DATABASE_NAME')
+    if not name and engine == engines['sqlite']:
+        name = os.path.join(BASE_DIR, 'db.sqlite3')
+    return {
+        'ENGINE': engine,
+        'NAME': name,
+        'USER': os.getenv('DATABASE_USER'),
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': os.getenv('{}_SERVICE_HOST'.format(service_name)),
+        'PORT': os.getenv('{}_SERVICE_PORT'.format(service_name)),
+    }
 
 DATABASES = {
-    'default': database.config()
+    'default': config()
 }
 
 
