@@ -38,6 +38,7 @@ function get_default_web_concurrency() {
 APP_HOME=$(readlink -f "${APP_HOME:-.}")
 
 echo "Application Home: $APP_HOME"
+printenv
 
 # Change the working directory to APP_HOME
 PYTHONPATH="$(pwd)${PYTHONPATH:+:$PYTHONPATH}"
