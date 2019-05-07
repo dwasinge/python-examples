@@ -136,8 +136,8 @@ objects:
               secretKeyRef:
                 key: database-password
                 name: ${NAME}
-          - name: APP_CONFIG
-            value: ${APP_CONFIG}
+          - name: APP_MODULE
+            value: ${APP_MODULE}
           - name: DJANGO_SECRET_KEY
             valueFrom:
               secretKeyRef:
@@ -348,7 +348,7 @@ parameters:
   name: DATABASE_PASSWORD
 - description: Relative path to Gunicorn configuration file (optional).
   displayName: Application Configuration File Path
-  name: APP_CONFIG
+  name: APP_MODULE
 - description: Set this to a long random string.
   displayName: Django Secret Key
   from: '[\w]{50}'

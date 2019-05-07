@@ -13,11 +13,10 @@
       S2I_BASE_IMAGE: python:3.6
     dev:
       NAME: "{{app_name}}"
-      APP_CONFIG: "example_project.wsgi"
-#      PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
-    # test:
-    #   NAME: "{{app_name}}"
-    #   PIPELINES_NAMESPACE: "{{ci_cd_namespace}}"
+      APP_MODULE: "example_project.wsgi"
+    test:
+      NAME: "{{app_name}}"
+      APP_MODULE: "example_project.wsgi"
   tasks:
     - include_role:
         name: openshift-applier/roles/openshift-applier
