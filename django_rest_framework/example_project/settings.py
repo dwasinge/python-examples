@@ -113,7 +113,7 @@ def config():
         'NAME': 'default',
         'USER': 'django',
         'PASSWORD': 'VTHWjW8WuU4Xinfl',
-        'HOST': 'localhost',
+        'HOST': 'postgresql',
         'PORT': '5432',
     }
 
