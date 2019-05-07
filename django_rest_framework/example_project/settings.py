@@ -25,7 +25,8 @@ SECRET_KEY = 'mxp_mx*9%k+plx9^5@=d8a#g5441u=jtrzze5yf&jmxcx$dlhl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["django-rest-framework-derek-dev.apps.s11.core.rht-labs.com", "app-node-*.rht-labs.com"]
+#ALLOWED_HOSTS = ["django-rest-framework-derek-dev.apps.s11.core.rht-labs.com", "app-node-*.rht-labs.com"]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
