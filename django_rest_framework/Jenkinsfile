@@ -41,15 +41,10 @@ pipeline {
         steps {
 
             sh """
-                printenv
                 set -e
-                pwd
-                ls -al
                 pip install --user pipenv
-                echo 'context dir $PIPELINE_CONTEXT_DIR'
                 if [ -d "$PIPELINE_CONTEXT_DIR" ]; then
                   cd $PIPELINE_CONTEXT_DIR
-                  pwd
                 fi
                 pipenv sync
                 pipenv install --dev
@@ -64,9 +59,7 @@ pipeline {
 
         steps {
 
-            sh """
-               pipenv check
-               """
+            sh "pipenv check"
 
         }
 
@@ -77,14 +70,9 @@ pipeline {
     stage('Run Tests') {
 
         steps {
-            try {
-                sh """
-                    behave --junit
-                """
-            } finally {
+
+                sh "behave --junit"
                 junit 'reports/*.xml'  (1)
-            }
-        }
 
     }
 
