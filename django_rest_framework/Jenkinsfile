@@ -35,23 +35,6 @@ pipeline {
   // Requeres at least one stage
   stages {
 
-    // Setup Python Slave with PIPENV
-    stage('Environment Setup') {
-
-        steps {
-
-            sh """
-                set -e
-                pip install --user pipenv
-                cd ${env.BUILD_OUTPUT_DIR}
-                pipenv sync
-                pipenv install --dev
-                """
-
-        }
-
-    }
-
     // Run Dependency Check
     stage('Dependency Check') {
 
@@ -64,17 +47,21 @@ pipeline {
     }
 
     // TODO: run static analysis with sonarqube
-    // Run Behave tests
+
+    // Setup Python Slave with PIPENV and run behave tests
     stage('Run Tests') {
 
         steps {
 
-                sh """
-                   cd ${env.BUILD_OUTPUT_DIR}
-                   pipenv shell
-                   python manage.py behave --junit
-                   """
-                junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
+            sh """
+               set -e
+               pip install --user pipenv
+               cd ${env.BUILD_OUTPUT_DIR}
+               pipenv sync
+               pipenv install --dev
+               python manage.py behave --junit
+               """
+            junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
         }
 
