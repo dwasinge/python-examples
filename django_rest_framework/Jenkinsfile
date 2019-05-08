@@ -43,9 +43,7 @@ pipeline {
             sh """
                 set -e
                 pip install --user pipenv
-                if [ -d "$PIPELINE_CONTEXT_DIR" ]; then
-                  cd $PIPELINE_CONTEXT_DIR
-                fi
+                cd ${env.BUILD_OUTPUT_DIR}
                 pipenv sync
                 pipenv install --dev
                 """
@@ -71,11 +69,11 @@ pipeline {
 
         steps {
 
-                if [ -d "$PIPELINE_CONTEXT_DIR" ]; then
-                  cd $PIPELINE_CONTEXT_DIR
-                fi
-                sh "python manage.py behave --junit"
-                junit 'reports/*.xml'  (1)
+                sh """
+                   cd ${env.BUILD_OUTPUT_DIR}
+                   python manage.py behave --junit
+                   """
+                junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
         }
 
