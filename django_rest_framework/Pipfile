@@ -5,7 +5,6 @@ verify_ssl = true
 
 [dev-packages]
 pytest = "*"
-django-debug-toolbar = "*"
 
 [packages]
 django = "==2.1.8"
@@ -13,6 +12,7 @@ djangorestframework = "*"
 gunicorn = "==19.9.0"
 psycopg2-binary = "==2.8.2"
 behave-django = "*"
+django-debug-toolbar = "*"
 
 [requires]
 python_version = "3.6"
