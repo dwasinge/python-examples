@@ -75,7 +75,7 @@ pipeline {
                pwd
                cd ${env.BUILD_OUTPUT_DIR}
                pwd
-               pipenv run behave --junit
+               pipenv run python manage.py behave --junit
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
