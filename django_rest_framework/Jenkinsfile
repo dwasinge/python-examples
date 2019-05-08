@@ -73,7 +73,20 @@ pipeline {
     }
 
     // TODO: run static analysis with sonarqube
-    // TODO: run behave tests
+    // Run Behave tests
+    stage('Run Tests') {
+
+        steps {
+            try {
+                sh """
+                    behave --junit
+                """
+            } finally {
+                junit 'reports/*.xml'  (1)
+            }
+        }
+
+    }
 
     // Build Container Image using the artifacts produced in previous stages
     stage('Build Container Image'){
