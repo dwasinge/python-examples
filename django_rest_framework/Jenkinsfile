@@ -35,12 +35,18 @@ pipeline {
   // Requeres at least one stage
   stages {
 
-    // Setup Python with PIPENV
-    stage('Python Node Setup') {
+    // Setup Python with PIPENV and create VENV
+    stage('Setup Environment') {
 
         steps {
 
-            sh "pip install --user pipenv"
+            sh """
+               set -e
+               pip install --user pipenv
+               cd ${env.BUILD_OUTPUT_DIR}
+               pipenv sync
+               pipenv install --dev
+               """
 
         }
 
@@ -52,6 +58,7 @@ pipeline {
         steps {
 
             sh "pipenv check"
+            // TODO:  Need to validate success
 
         }
 
@@ -59,17 +66,16 @@ pipeline {
 
     // TODO: run static analysis with sonarqube
 
-    // Setup VENV and run behave tests
+    // Run behave tests
     stage('Run Tests') {
 
         steps {
 
             sh """
-               set -e
+               pwd
                cd ${env.BUILD_OUTPUT_DIR}
-               pipenv sync
-               pipenv install --dev
-               python manage.py behave --junit
+               pwd
+               pipenv run behave --junit
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
