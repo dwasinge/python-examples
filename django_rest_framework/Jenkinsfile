@@ -59,7 +59,19 @@ pipeline {
 
     }
 
-    // TODO: dependency check using python?
+    // Run Dependency Check
+    stage('Dependency Check') {
+
+        steps {
+
+            sh """
+               pipenv check
+               """
+
+        }
+
+    }
+
     // TODO: run static analysis with sonarqube
     // TODO: run behave tests
 
