@@ -9,6 +9,13 @@ openshift_cluster_content:
     - build
 - object: dev-stage
   content:
+  - name: postgresql-dev-deploy
+    template: "{{ inventory_dir }}/../templates/postgresql-persistent.yml"
+    params_from_vars: "{{ database }}"
+    namespace: "{{ dev_namespace }}"
+    tags:
+    - deploy
+    - dev-deploy
   - name: app-dev-deploy
     template: "{{ inventory_dir }}/../templates/django-psql-persistent.yml"
     params_from_vars: "{{ dev }}"
@@ -16,12 +23,19 @@ openshift_cluster_content:
     tags:
     - deploy
     - dev-deploy
-# - object: test-stage
-#   content:
-#   - name: app-test-deploy
-#     template: "{{ inventory_dir }}/../templates/deployment.yml"
-#     params_from_vars: "{{ deploy }}"
-#     namespace: "{{ test_namespace }}"
-#     tags:
-#     - deploy
-#     - test-deploy
+- object: test-stage
+  content:
+  - name: postgresql-test-deploy
+    template: "{{ inventory_dir }}/../templates/postgresql-persistent.yml"
+    params_from_vars: "{{ database }}"
+    namespace: "{{ test_namespace }}"
+    tags:
+    - deploy
+    - test-deploy
+  - name: app-test-deploy
+    template: "{{ inventory_dir }}/../templates/django-psql-persistent.yml"
+    params_from_vars: "{{ test }}"
+    namespace: "{{ test_namespace }}"
+    tags:
+    - deploy
+    - test-deploy

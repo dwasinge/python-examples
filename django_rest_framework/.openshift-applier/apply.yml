@@ -6,6 +6,9 @@
     ci_cd_namespace: derek-ci-cd
     dev_namespace: derek-dev
     test_namespace: derek-test
+    database:
+      DATABASE_SERVICE_NAME: "{{ app_name }}-postgresql"
+      POSTGRESQL_DATABASE: "default"
     build:
       NAME: "{{app_name}}"
       PIPELINE_SOURCE_REPOSITORY_URL: https://github.com/dwasinge/python-examples.git
@@ -20,3 +23,4 @@
   tasks:
     - include_role:
         name: openshift-applier/roles/openshift-applier
+
