@@ -74,6 +74,8 @@ pipeline {
                 sh "behave --junit"
                 junit 'reports/*.xml'  (1)
 
+        }
+
     }
 
     // Build Container Image using the artifacts produced in previous stages
