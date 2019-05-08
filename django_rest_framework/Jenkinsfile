@@ -35,6 +35,17 @@ pipeline {
   // Requeres at least one stage
   stages {
 
+    // Setup Python with PIPENV
+    stage('Python Node Setup') {
+
+        steps {
+
+            sh "pip install --user pipenv"
+
+        }
+
+    }
+
     // Run Dependency Check
     stage('Dependency Check') {
 
@@ -48,14 +59,13 @@ pipeline {
 
     // TODO: run static analysis with sonarqube
 
-    // Setup Python Slave with PIPENV and run behave tests
+    // Setup VENV and run behave tests
     stage('Run Tests') {
 
         steps {
 
             sh """
                set -e
-               pip install --user pipenv
                cd ${env.BUILD_OUTPUT_DIR}
                pipenv sync
                pipenv install --dev
