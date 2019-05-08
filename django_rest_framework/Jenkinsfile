@@ -71,8 +71,9 @@ pipeline {
 
         steps {
 
-                sh "pwd"
-                sh "ls -la"
+                if [ -d "$PIPELINE_CONTEXT_DIR" ]; then
+                  cd $PIPELINE_CONTEXT_DIR
+                fi
                 sh "python manage.py behave --junit"
                 junit 'reports/*.xml'  (1)
 
