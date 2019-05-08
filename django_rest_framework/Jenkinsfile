@@ -71,7 +71,7 @@ pipeline {
 
         steps {
 
-                sh "behave --junit"
+                sh "python manage.py behave --junit"
                 junit 'reports/*.xml'  (1)
 
         }
