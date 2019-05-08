@@ -71,6 +71,8 @@ pipeline {
 
         steps {
 
+                sh "pwd"
+                sh "ls -la"
                 sh "python manage.py behave --junit"
                 junit 'reports/*.xml'  (1)
 
