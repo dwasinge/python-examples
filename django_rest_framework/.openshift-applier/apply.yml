@@ -7,8 +7,11 @@
     dev_namespace: derek-dev
     test_namespace: derek-test
     database:
+      APP_NAME: "{{ app_name }}"
       DATABASE_SERVICE_NAME: "{{ app_name }}-postgresql"
       POSTGRESQL_DATABASE: "default"
+      POSTGRESQL_USER: "pguser"
+      POSTGRESQL_PASSWORD: "pgpass"
     build:
       NAME: "{{app_name}}"
       PIPELINE_SOURCE_REPOSITORY_URL: https://github.com/dwasinge/python-examples.git
@@ -17,9 +20,11 @@
     dev:
       NAME: "{{app_name}}"
       APP_MODULE: "example_project.wsgi"
+      DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
     test:
       NAME: "{{app_name}}"
       APP_MODULE: "example_project.wsgi"
+      DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
   tasks:
     - include_role:
         name: openshift-applier/roles/openshift-applier

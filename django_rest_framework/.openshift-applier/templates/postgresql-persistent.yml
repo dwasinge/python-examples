@@ -2,6 +2,7 @@ apiVersion: template.openshift.io/v1
 kind: Template
 labels:
   template: postgresql-persistent-template
+  app: "${APP_NAME}"
 message: |-
   The following service(s) have been created in your project: ${DATABASE_SERVICE_NAME}.
 
@@ -197,3 +198,8 @@ parameters:
   name: POSTGRESQL_VERSION
   required: true
   value: "9.6"
+- description: App Name for Labels
+  displayName: App Name Used as Label
+  name: APP_NAME
+  required: true
+  value: "postgresql-persistent"
