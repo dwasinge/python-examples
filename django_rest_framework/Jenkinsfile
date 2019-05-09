@@ -65,19 +65,23 @@ pipeline {
     }
 
     // Run static analysis with sonarqube
-    // stage('Sonarqube') {
-    //     environment {
-    //         scannerHome = tool 'sonar-scanner-tool'
-    //     }
-    //     steps {
-    //         withSonarQubeEnv('sonar') {
-    //             sh "${scannerHome}/bin/sonar-scanner"
-    //         }
-    //         timeout(time: 10, unit: 'MINUTES') {
-    //             waitForQualityGate abortPipeline: true
-    //         }
-    //     }
-    // }
+    stage('Static Code Analysis') {
+        environment {
+            scannerHome = tool 'sonar-scanner-tool'
+        }
+        steps {
+            withSonarQubeEnv('sonar') {
+                sh """
+                   set -e
+                   nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
+                   ${scannerHome}/bin/sonar-scanner
+                   """
+            }
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    }
 
     // Run behave tests
     stage('Run Tests') {
