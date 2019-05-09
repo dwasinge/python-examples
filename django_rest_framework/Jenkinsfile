@@ -46,6 +46,7 @@ pipeline {
                cd ${env.BUILD_OUTPUT_DIR}
                pipenv sync
                pipenv install --dev
+               ls -la $(pipenv --venv)/bin
                """
 
         }
@@ -71,6 +72,7 @@ pipeline {
 
             sh """
                set -e
+               ls -la $(pipenv --venv)/bin
                pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
                """
 
