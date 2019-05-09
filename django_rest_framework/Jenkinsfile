@@ -73,7 +73,7 @@ pipeline {
             withSonarQubeEnv('sonar') {
                 sh """
                    set -e
-                   nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
+                   pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
                    ${scannerHome}/bin/sonar-scanner
                    """
             }
