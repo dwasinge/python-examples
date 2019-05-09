@@ -64,6 +64,22 @@ pipeline {
 
     }
 
+    // Run behave tests
+    stage('Run Tests and Generate Reports') {
+
+        steps {
+
+            sh """
+               cd ${env.BUILD_OUTPUT_DIR}
+               pipenv run coverage run --source='.' manage.py behave --junit
+               pipenv run coverage html -i -o reports/coverage.xml
+               """
+            junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
+
+        }
+
+    }
+
     // Run static analysis with sonarqube
     stage('Static Code Analysis') {
         environment {
@@ -74,7 +90,6 @@ pipeline {
             withSonarQubeEnv('sonar') {
                 sh """
                    cd "${env.BUILD_OUTPUT_DIR}"
-                   pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
                    ${scannerHome}/bin/sonar-scanner
                    """
             }
@@ -82,21 +97,6 @@ pipeline {
                 waitForQualityGate abortPipeline: true
             }
         }
-    }
-
-    // Run behave tests
-    stage('Run Tests') {
-
-        steps {
-
-            sh """
-               cd ${env.BUILD_OUTPUT_DIR}
-               pipenv run python manage.py behave --junit
-               """
-            junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
-
-        }
-
     }
 
     // Build Container Image using the artifacts produced in previous stages
