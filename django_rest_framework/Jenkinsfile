@@ -43,10 +43,9 @@ pipeline {
             sh """
                set -e
                pip install --user pipenv
-               cd ${env.BUILD_OUTPUT_DIR}
+               cd "${env.BUILD_OUTPUT_DIR}"
                pipenv sync
                pipenv install --dev
-               ls -la "$(pipenv --venv)/bin"
                """
 
         }
@@ -71,8 +70,7 @@ pipeline {
         steps {
 
             sh """
-               set -e
-               ls -la "$(pipenv --venv)/bin"
+               cd "${env.BUILD_OUTPUT_DIR}"
                pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
                """
 
@@ -102,9 +100,7 @@ pipeline {
         steps {
 
             sh """
-               pwd
                cd ${env.BUILD_OUTPUT_DIR}
-               pwd
                pipenv run python manage.py behave --junit
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
