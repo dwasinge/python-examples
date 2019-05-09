@@ -43,7 +43,7 @@ pipeline {
             sh """
                set -e
                pip install --user pipenv
-               cd ${env.BUILD_OUTPUT_DIR}
+               cd "${env.BUILD_OUTPUT_DIR}"
                pipenv sync
                pipenv install --dev
                """
@@ -65,19 +65,24 @@ pipeline {
     }
 
     // Run static analysis with sonarqube
-    // stage('Sonarqube') {
-    //     environment {
-    //         scannerHome = tool 'sonar-scanner-tool'
-    //     }
-    //     steps {
-    //         withSonarQubeEnv('sonar') {
-    //             sh "${scannerHome}/bin/sonar-scanner"
-    //         }
-    //         timeout(time: 10, unit: 'MINUTES') {
-    //             waitForQualityGate abortPipeline: true
-    //         }
-    //     }
-    // }
+    stage('Static Code Analysis') {
+        environment {
+            scannerHome = tool 'sonar-scanner-tool'
+        }
+        steps {
+
+            withSonarQubeEnv('sonar') {
+                sh """
+                   cd "${env.BUILD_OUTPUT_DIR}"
+                   pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
+                   ${scannerHome}/bin/sonar-scanner
+                   """
+            }
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
+    }
 
     // Run behave tests
     stage('Run Tests') {
@@ -85,9 +90,7 @@ pipeline {
         steps {
 
             sh """
-               pwd
                cd ${env.BUILD_OUTPUT_DIR}
-               pwd
                pipenv run python manage.py behave --junit
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
