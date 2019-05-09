@@ -72,7 +72,7 @@ pipeline {
             sh """
                cd ${env.BUILD_OUTPUT_DIR}
                pipenv run coverage run --source='.' manage.py behave --junit
-               pipenv run coverage html -i -o reports/coverage.xml
+               pipenv run coverage xml -i -o reports/coverage.xml
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
