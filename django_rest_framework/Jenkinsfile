@@ -64,29 +64,19 @@ pipeline {
 
     }
 
-    // Run Code Analysis
-    stage('Code Analysis') {
-
-        steps {
-
-            sh """
-               cd "${env.BUILD_OUTPUT_DIR}"
-               pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
-               """
-
-        }
-
-    }
-
     // Run static analysis with sonarqube
-    stage('Sonar Reports') {
+    stage('Static Code Analysis') {
         environment {
             scannerHome = tool 'sonar-scanner-tool'
         }
         steps {
 
             withSonarQubeEnv('sonar') {
-                sh "${scannerHome}/bin/sonar-scanner"
+                sh """
+                   cd "${env.BUILD_OUTPUT_DIR}"
+                   pipenv run nosetests -sv --with-xunit --xunit-file=nosetests.xml --with-xcoverage --xcoverage-file=coverage.xml
+                   ${scannerHome}/bin/sonar-scanner
+                   """
             }
             timeout(time: 10, unit: 'MINUTES') {
                 waitForQualityGate abortPipeline: true
