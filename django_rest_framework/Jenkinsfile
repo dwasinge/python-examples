@@ -43,7 +43,7 @@ pipeline {
             sh """
                set -e
                pip install --user pipenv
-               cd ${env.BUILD_OUTPUT_DIR}
+               cd "${env.BUILD_OUTPUT_DIR}"
                pipenv sync
                pipenv install --dev
                """
@@ -64,36 +64,39 @@ pipeline {
 
     }
 
-    // Run static analysis with sonarqube
-    // stage('Sonarqube') {
-    //     environment {
-    //         scannerHome = tool 'sonar-scanner-tool'
-    //     }
-    //     steps {
-    //         withSonarQubeEnv('sonar') {
-    //             sh "${scannerHome}/bin/sonar-scanner"
-    //         }
-    //         timeout(time: 10, unit: 'MINUTES') {
-    //             waitForQualityGate abortPipeline: true
-    //         }
-    //     }
-    // }
-
     // Run behave tests
-    stage('Run Tests') {
+    stage('Run Tests and Generate Reports') {
 
         steps {
 
             sh """
-               pwd
                cd ${env.BUILD_OUTPUT_DIR}
-               pwd
-               pipenv run python manage.py behave --junit
+               pipenv run coverage run --source='.' manage.py behave --junit
+               pipenv run coverage xml -i -o reports/coverage.xml
                """
             junit "${env.BUILD_OUTPUT_DIR}/reports/*.xml"
 
         }
 
+    }
+
+    // Run static analysis with sonarqube
+    stage('Static Code Analysis') {
+        environment {
+            scannerHome = tool 'sonar-scanner-tool'
+        }
+        steps {
+
+            withSonarQubeEnv('sonar') {
+                sh """
+                   cd "${env.BUILD_OUTPUT_DIR}"
+                   ${scannerHome}/bin/sonar-scanner
+                   """
+            }
+            timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+            }
+        }
     }
 
     // Build Container Image using the artifacts produced in previous stages
