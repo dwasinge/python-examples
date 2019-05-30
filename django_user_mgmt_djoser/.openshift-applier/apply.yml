@@ -1,0 +1,31 @@
+---
+- name: Build and Deploy Django REST Application
+  hosts: seed-hosts
+  vars:
+    app_name: user-mgmt
+    ci_cd_namespace: gsos-ci-cd
+    dev_namespace: gsos-dev
+    test_namespace: gsos-test
+    database:
+      APP_NAME: "{{ app_name }}"
+      DATABASE_SERVICE_NAME: "{{ app_name }}-postgresql"
+      POSTGRESQL_DATABASE: "default"
+      POSTGRESQL_USER: "pguser"
+      POSTGRESQL_PASSWORD: "pgpass"
+    build:
+      NAME: "{{app_name}}"
+      PIPELINE_SOURCE_REPOSITORY_URL: https://github.com/dwasinge/python-examples.git
+      PIPELINE_CONTEXT_DIR: "django_user_mgmt_djoser"
+      S2I_BASE_IMAGE: python:3.6
+    dev:
+      NAME: "{{app_name}}"
+      APP_MODULE: "user_mgmt.wsgi"
+      DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
+    test:
+      NAME: "{{app_name}}"
+      APP_MODULE: "user_mgmt.wsgi"
+      DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
+  tasks:
+    - include_role:
+        name: openshift-applier/roles/openshift-applier
+
