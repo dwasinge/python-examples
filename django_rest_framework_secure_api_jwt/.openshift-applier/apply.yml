@@ -21,10 +21,12 @@
       NAME: "{{app_name}}"
       APP_MODULE: "secureapi.wsgi"
       DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
+      JWT_SIGNING_KEY_SECRET: "user-mgmt-jwt-signing-key"
     test:
       NAME: "{{app_name}}"
       APP_MODULE: "secureapi.wsgi"
       DATABASE_SECRET_NAME: "{{ app_name }}-postgresql"
+      JWT_SIGNING_KEY_SECRET: "user-mgmt-jwt-signing-key"
   tasks:
     - include_role:
         name: openshift-applier/roles/openshift-applier

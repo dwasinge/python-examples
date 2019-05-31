@@ -113,7 +113,7 @@ objects:
             valueFrom:
               secretKeyRef:
                 key: jwt-signing-key
-                name: ${JWT_SIGNING_KEY}
+                name: ${JWT_SIGNING_KEY_SECRET}
           image: ' '
           livenessProbe:
             httpGet:
@@ -180,7 +180,7 @@ parameters:
   from: '[\w]{50}'
   generate: expression
   name: DJANGO_SECRET_KEY
-- description: Signing key used to verify JWT tokens
-  displayName: JWT Signing Key
-  name: JWT_SIGNING_KEY
+- description: Secret containing signing key used to verify JWT tokens
+  displayName: JWT Signing Key Secret
+  name: JWT_SIGNING_KEY_SECRET
   required: true
