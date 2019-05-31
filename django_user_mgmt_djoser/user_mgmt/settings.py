@@ -167,7 +167,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+# Use environment to define where static files will be copied
 STATIC_BASE_DIR = os.getenv('APP_ROOT', BASE_DIR)
 STATIC_ROOT = f'{STATIC_BASE_DIR}/static'
 
-STATIC_URL = '/static/'
+# Make sure we look in the right place
+STATIC_URL = STATIC_ROOT
