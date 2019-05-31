@@ -13,6 +13,7 @@ psycopg2-binary = "==2.8.2"
 django-cors-headers = "*"
 djoser = "*"
 djangorestframework-simplejwt = "*"
+whitenoise = "*"
 
 [requires]
 python_version = "3.6"
