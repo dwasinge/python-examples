@@ -172,4 +172,4 @@ STATIC_BASE_DIR = os.getenv('APP_ROOT', BASE_DIR)
 STATIC_ROOT = f'{STATIC_BASE_DIR}/static'
 
 # Make sure we look in the right place
-STATIC_URL = STATIC_ROOT
+STATIC_URL = f'{STATIC_ROOT}/'
