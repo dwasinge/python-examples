@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['*']
 
 SIMPLE_JWT = {
    'AUTH_HEADER_TYPES': ('JWT',),
+   'SIGNING_KEY': os.getenv('JWT_SIGNING_KEY', '9e4@&tw46$l31)zrqe3wi+-slqm(ruvz&se0^%9#6(_w3ui!c0'),
 }
 
 # Application definition
