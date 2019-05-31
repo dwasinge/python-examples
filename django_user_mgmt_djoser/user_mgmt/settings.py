@@ -168,8 +168,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 # Use environment to define where static files will be copied
-STATIC_BASE_DIR = os.getenv('APP_ROOT', BASE_DIR)
-STATIC_ROOT = f'{STATIC_BASE_DIR}/static'
+#STATIC_BASE_DIR = os.getenv('APP_ROOT', BASE_DIR)
+STATIC_ROOT = f'{BASE_DIR}/static'
 
 # Make sure we look in the right place
 STATIC_URL = f'{STATIC_ROOT}/'
