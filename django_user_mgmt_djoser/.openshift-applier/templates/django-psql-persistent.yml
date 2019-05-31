@@ -119,7 +119,7 @@ objects:
             valueFrom:
               secretKeyRef:
                 key: jwt-signing-key
-                name: ${JWT_SIGNING_KEY}
+                name: ${NAME}-jwt-signing-key
           image: ' '
           livenessProbe:
             httpGet:
@@ -183,11 +183,11 @@ parameters:
   name: APP_MODULE
 - description: Set this to a long random string.
   displayName: Django Secret Key
-  from: '[\w]{50}'
+  from: '[a-z0-9]{50}'
   generate: expression
   name: DJANGO_SECRET_KEY
 - description: Set this to a long random string.
   displayName: JWT Signing Key
-  from: '[\w]{50}'
+  from: '[a-z0-9]{50}'
   generate: expression
   name: JWT_SIGNING_KEY
