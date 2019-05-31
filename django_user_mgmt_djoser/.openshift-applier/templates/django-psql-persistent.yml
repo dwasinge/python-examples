@@ -115,6 +115,11 @@ objects:
               secretKeyRef:
                 key: django-secret-key
                 name: ${NAME}
+          - name: JWT_SIGNING_KEY
+            valueFrom:
+              secretKeyRef:
+                key: jwt-signing-key
+                name: ${JWT_SIGNING_KEY}
           image: ' '
           livenessProbe:
             httpGet:
