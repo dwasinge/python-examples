@@ -30,6 +30,12 @@ objects:
   stringData:
     django-secret-key: ${DJANGO_SECRET_KEY}
 - apiVersion: v1
+  kind: Secret
+  metadata:
+    name: ${NAME}-jwt-signing-key
+  stringData:
+    jwt-signing-key: ${JWT_SIGNING_KEY}
+- apiVersion: v1
   kind: Service
   metadata:
     annotations:
@@ -175,3 +181,8 @@ parameters:
   from: '[\w]{50}'
   generate: expression
   name: DJANGO_SECRET_KEY
+- description: Set this to a long random string.
+  displayName: JWT Signing Key
+  from: '[\w]{50}'
+  generate: expression
+  name: JWT_SIGNING_KEY
